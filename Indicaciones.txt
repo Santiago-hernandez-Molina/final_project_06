@@ -1,0 +1,21 @@
+Indicaciones:
+
+1. Realizar grupos de 2 o trabajar individual
+2. Realizar el CRUD sobre las tablas dadas en el diagrama E-R
+3. Implementar las siguientes consultas en NODE:
+
+- Seleccionar la editorial dependiendo del id del libro pasado por parametro en la ruta 
+- Seleccionar el cliente dependiendo del id del prestamo pasado por parametro en la ruta 
+- Seleccionar el libro dependiendo del id del Detalle_Prestamo pasado por parametro en la ruta 
+
+4. Implementar las siguientes consultas en SPRING:
+
+- Count para traer el total de registros de cada tabla
+- Seleccionar la editorial dependiendo del id del libro pasado por parametro en la ruta 
+- Seleccionar el cliente dependiendo del id del prestamo pasado por parametro en la ruta 
+- Seleccionar el libro dependiendo del id del Detalle_Prestamo pasado por parametro en la ruta 
+
+5. Realizar las respectivas pruebas en postman o insomnia.
+
+
+
