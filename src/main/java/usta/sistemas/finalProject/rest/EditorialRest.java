@@ -15,38 +15,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import usta.sistemas.finalProject.models.ClientEntity;
-import usta.sistemas.finalProject.services.ClientService;
+import usta.sistemas.finalProject.models.EditorialEntity;
+import usta.sistemas.finalProject.services.EditorialService;
 
 @RestController
-@RequestMapping("api/client")
+@RequestMapping("api/editorial")
 @RequiredArgsConstructor
-public class ClientRest{
-	private final ClientService clientService;
+public class EditorialRest{
+	private final EditorialService editorialService;
 
     @GetMapping("list")
-    public ResponseEntity<List<ClientEntity>> getAllCategories(){
-        return ResponseEntity.ok(clientService.findAll());
+    public ResponseEntity<List<EditorialEntity>> getAllCategories(){
+        return ResponseEntity.ok(editorialService.findAll());
     }
     @PostMapping("save")
-    private ResponseEntity<ClientEntity> save(@RequestBody ClientEntity clientEntity) {
+    private ResponseEntity<EditorialEntity> save(@RequestBody EditorialEntity editorialEntity) {
 			try{
-        return ResponseEntity.status(HttpStatus.CREATED).body(clientService.create(clientEntity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(editorialService.create(editorialEntity));
 			}catch(Error e){
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			}
     }
 
     @PutMapping("edit")
-    private ResponseEntity<ClientEntity> edit(@RequestBody ClientEntity clientEntity) {
-        ClientEntity temporal = clientService.edit(clientEntity);
+    private ResponseEntity<EditorialEntity> edit(@RequestBody EditorialEntity editorialEntity) {
+        EditorialEntity temporal = editorialService.edit(editorialEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(temporal);
     }
 
     @DeleteMapping("delete/{id}")
     private ResponseEntity<String> delete(@PathVariable Long id) {
         try {
-            clientService.deleteById(id);
+            editorialService.deleteById(id);
             return ResponseEntity.ok("successfully removed");
         } catch (DataIntegrityViolationException de) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can´t remove this foreign key because it have been already assigned.");

@@ -15,38 +15,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import usta.sistemas.finalProject.models.ClientEntity;
-import usta.sistemas.finalProject.services.ClientService;
+import usta.sistemas.finalProject.models.LoanEntity;
+import usta.sistemas.finalProject.services.LoanService;
 
 @RestController
-@RequestMapping("api/client")
+@RequestMapping("api/loan")
 @RequiredArgsConstructor
-public class ClientRest{
-	private final ClientService clientService;
+public class LoanRest{
+	private final LoanService loanService;
 
     @GetMapping("list")
-    public ResponseEntity<List<ClientEntity>> getAllCategories(){
-        return ResponseEntity.ok(clientService.findAll());
+    public ResponseEntity<List<LoanEntity>> getAllCategories(){
+        return ResponseEntity.ok(loanService.findAll());
     }
     @PostMapping("save")
-    private ResponseEntity<ClientEntity> save(@RequestBody ClientEntity clientEntity) {
+    private ResponseEntity<LoanEntity> save(@RequestBody LoanEntity loanEntity) {
 			try{
-        return ResponseEntity.status(HttpStatus.CREATED).body(clientService.create(clientEntity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanService.create(loanEntity));
 			}catch(Error e){
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			}
     }
 
     @PutMapping("edit")
-    private ResponseEntity<ClientEntity> edit(@RequestBody ClientEntity clientEntity) {
-        ClientEntity temporal = clientService.edit(clientEntity);
+    private ResponseEntity<LoanEntity> edit(@RequestBody LoanEntity loanEntity) {
+        LoanEntity temporal = loanService.edit(loanEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(temporal);
     }
 
     @DeleteMapping("delete/{id}")
     private ResponseEntity<String> delete(@PathVariable Long id) {
         try {
-            clientService.deleteById(id);
+            loanService.deleteById(id);
             return ResponseEntity.ok("successfully removed");
         } catch (DataIntegrityViolationException de) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can´t remove this foreign key because it have been already assigned.");
