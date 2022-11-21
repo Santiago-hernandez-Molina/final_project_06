@@ -13,7 +13,7 @@ import usta.sistemas.finalProject.repositories.BookRepo;
 @Service
 @RequiredArgsConstructor
 public class BookService{
-	private final BookRepo bookRepo;
+	  private final BookRepo bookRepo;
 
     public List<BookEntity> findAll() {
         return bookRepo.findAll();

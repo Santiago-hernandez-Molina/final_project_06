@@ -4,18 +4,23 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.AccessLevel;
 
 @Entity
 @Table(name = "authors")
@@ -44,7 +49,12 @@ public class AuthorEntity implements Serializable{
 	@Column(name = "description",length = 200)
 	private String description;
 
-	@ManyToMany(mappedBy = "authors")
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY,
+      cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+      }, mappedBy = "authors")
 	private List<BookEntity> books;
 
 }
