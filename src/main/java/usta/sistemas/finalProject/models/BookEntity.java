@@ -52,7 +52,7 @@ public class BookEntity implements Serializable{
 	private int code;
 
 	@Column(name = "isbn",length = 10,nullable = false)
-	private char isbn;
+	private String isbn;
 	
 	@ManyToOne
 	@JoinColumn(name = "editorial_id",referencedColumnName = "id")
