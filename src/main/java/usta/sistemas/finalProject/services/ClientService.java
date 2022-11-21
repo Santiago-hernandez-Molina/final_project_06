@@ -24,6 +24,9 @@ public class ClientService{
 		return clientRepo.findById(id);
 	}
 
+	public Optional<ClientEntity> findByLoan(Long id){
+		return clientRepo.findClientByLoansId(id);
+	}
 
 	public void deleteById(Long id){
 		clientRepo.deleteById(id);
@@ -48,5 +51,9 @@ public class ClientService{
 			return null;
 		}
 	}
+	public long count(){
+		return clientRepo.count();
+	}	
+
 }
 

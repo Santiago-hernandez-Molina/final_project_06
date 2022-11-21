@@ -1,6 +1,7 @@
 package usta.sistemas.finalProject.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -24,35 +25,44 @@ import usta.sistemas.finalProject.services.LoanService;
 public class LoanRest{
 	private final LoanService loanService;
 
-    @GetMapping("list")
-    public ResponseEntity<List<LoanEntity>> getAllCategories(){
-        return ResponseEntity.ok(loanService.findAll());
-    }
-    @PostMapping("save")
-    private ResponseEntity<LoanEntity> save(@RequestBody LoanEntity loanEntity) {
-			try{
-        return ResponseEntity.status(HttpStatus.CREATED).body(loanService.create(loanEntity));
-			}catch(Error e){
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-			}
-    }
+	@GetMapping("list")
+	public ResponseEntity<List<LoanEntity>> getAllCategories(){
+		return ResponseEntity.ok(loanService.findAll());
+	}
+	@GetMapping("list/{id}")
+	private ResponseEntity<Optional<LoanEntity>> listById(@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.FOUND).body(loanService.findById(id));
+	}
+	@PostMapping("save")
+	private ResponseEntity<LoanEntity> save(@RequestBody LoanEntity loanEntity) {
+		try{
+			return ResponseEntity.status(HttpStatus.CREATED).body(loanService.create(loanEntity));
+		}catch(Error e){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
 
-    @PutMapping("edit")
-    private ResponseEntity<LoanEntity> edit(@RequestBody LoanEntity loanEntity) {
-        LoanEntity temporal = loanService.edit(loanEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(temporal);
-    }
+	@PutMapping("edit")
+	private ResponseEntity<LoanEntity> edit(@RequestBody LoanEntity loanEntity) {
+		LoanEntity temporal = loanService.edit(loanEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(temporal);
+	}
 
-    @DeleteMapping("delete/{id}")
-    private ResponseEntity<String> delete(@PathVariable Long id) {
-        try {
-            loanService.deleteById(id);
-            return ResponseEntity.ok("successfully removed");
-        } catch (DataIntegrityViolationException de) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can´t remove this foreign key because it have been already assigned.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id doesn't match with any entity");
-        }
-    }
+	@DeleteMapping("delete/{id}")
+	private ResponseEntity<String> delete(@PathVariable Long id) {
+		try {
+			loanService.deleteById(id);
+			return ResponseEntity.ok("successfully removed");
+		} catch (DataIntegrityViolationException de) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can´t remove this foreign key because it have been already assigned.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id doesn't match with any entity");
+		}
+	}
+
+	@GetMapping("count")
+	private ResponseEntity<Long> count(){
+		return ResponseEntity.status(HttpStatus.OK).body(loanService.count());
+	}
 
 }

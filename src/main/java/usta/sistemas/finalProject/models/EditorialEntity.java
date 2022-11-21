@@ -1,12 +1,17 @@
 package usta.sistemas.finalProject.models;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.GenerationType;
 
 import lombok.AllArgsConstructor;
@@ -38,4 +43,7 @@ public class EditorialEntity implements Serializable{
 	@Column(name = "phone",length = 20,nullable = false)
 	private String phone;
 
+	@OneToMany(mappedBy = "editorial")
+	@JsonIgnore
+	private List<BookEntity> books;
 }

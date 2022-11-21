@@ -48,5 +48,8 @@ public class LoanService{
 			return null;
 		}
 	}
+	public long count(){
+		return loanRepo.count();
+	}	
 }
 
