@@ -82,5 +82,9 @@ public class AuthorService{
 			return null;
 		}
 	}
+
+	public long count(){
+		return authorRepo.count();
+	}
 }
 

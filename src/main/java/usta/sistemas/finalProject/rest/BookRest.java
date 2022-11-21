@@ -1,6 +1,7 @@
 package usta.sistemas.finalProject.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -24,35 +25,43 @@ import usta.sistemas.finalProject.services.BookService;
 public class BookRest{
 	private final BookService bookService;
 
-    @GetMapping("list")
-    public ResponseEntity<List<BookEntity>> getAllCategories(){
-        return ResponseEntity.ok(bookService.findAll());
-    }
-    @PostMapping("save")
-    private ResponseEntity<BookEntity> save(@RequestBody BookEntity bookEntity) {
-			try{
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create(bookEntity));
-			}catch(Error e){
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-			}
-    }
+	@GetMapping("list")
+	public ResponseEntity<List<BookEntity>> getAllCategories(){
+		return ResponseEntity.ok(bookService.findAll());
+	}
+	@GetMapping("list/{id}")
+	private ResponseEntity<Optional<BookEntity>> listById(@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.FOUND).body(bookService.findById(id));
+	}
+	@PostMapping("save")
+	private ResponseEntity<BookEntity> save(@RequestBody BookEntity bookEntity) {
+		try{
+			return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create(bookEntity));
+		}catch(Error e){
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+	}
 
-    @PutMapping("edit")
-    private ResponseEntity<BookEntity> edit(@RequestBody BookEntity bookEntity) {
-        BookEntity temporal = bookService.edit(bookEntity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(temporal);
-    }
+	@PutMapping("edit")
+	private ResponseEntity<BookEntity> edit(@RequestBody BookEntity bookEntity) {
+		BookEntity temporal = bookService.edit(bookEntity);
+		return ResponseEntity.status(HttpStatus.CREATED).body(temporal);
+	}
 
-    @DeleteMapping("delete/{id}")
-    private ResponseEntity<String> delete(@PathVariable Long id) {
-        try {
-            bookService.deleteById(id);
-            return ResponseEntity.ok("successfully removed");
-        } catch (DataIntegrityViolationException de) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can´t remove this foreign key because it have been already assigned.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id doesn't match with any entity");
-        }
-    }
+	@GetMapping("count")
+	private ResponseEntity<Long> count(){
+		return ResponseEntity.status(HttpStatus.OK).body(bookService.count());
+	}
+	@DeleteMapping("delete/{id}")
+	private ResponseEntity<String> delete(@PathVariable Long id) {
+		try {
+			bookService.deleteById(id);
+			return ResponseEntity.ok("successfully removed");
+		} catch (DataIntegrityViolationException de) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can´t remove this foreign key because it have been already assigned.");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id doesn't match with any entity");
+		}
+	}
 
 }

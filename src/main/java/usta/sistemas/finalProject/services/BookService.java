@@ -13,39 +13,43 @@ import usta.sistemas.finalProject.repositories.BookRepo;
 @Service
 @RequiredArgsConstructor
 public class BookService{
-	  private final BookRepo bookRepo;
+	private final BookRepo bookRepo;
 
-    public List<BookEntity> findAll() {
-        return bookRepo.findAll();
-    }
+	public List<BookEntity> findAll() {
+		return bookRepo.findAll();
+	}
 
-    public Optional<BookEntity> findById(Long id) {
-        return bookRepo.findById(id);
-    }
+	public Optional<BookEntity> findById(Long id) {
+		return bookRepo.findById(id);
+	}
 
 
-    public void deleteById(Long id){
-        bookRepo.deleteById(id);
-    }
+	public void deleteById(Long id){
+		bookRepo.deleteById(id);
+	}
 
-		public BookEntity create(BookEntity bookEntity){
-			try{
+	public BookEntity create(BookEntity bookEntity){
+		try{
+			return bookRepo.save(bookEntity);
+		}catch(Error e){
+			return null;
+		}
+	}
+	public BookEntity edit(BookEntity bookEntity){
+		try{
+			if(findById(bookEntity.getId())!=null){
 				return bookRepo.save(bookEntity);
-			}catch(Error e){
+			}else{
 				return null;
 			}
+		}catch(Error e){
+			System.err.println("something wents wrong");
+			return null;
 		}
-		public BookEntity edit(BookEntity bookEntity){
-			try{
-				if(findById(bookEntity.getId())!=null){
-					return bookRepo.save(bookEntity);
-				}else{
-					return null;
-				}
-			}catch(Error e){
-				System.err.println("something wents wrong");
-				return null;
-			}
-		}
+	}
+
+	public long count(){
+		return bookRepo.count();
+	}	
 }
 

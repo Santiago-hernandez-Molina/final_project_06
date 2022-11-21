@@ -1,6 +1,7 @@
 package usta.sistemas.finalProject.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,12 @@ public class AuthorRest{
 	public ResponseEntity<List<AuthorEntity>> getAllCategories(){
 		return ResponseEntity.ok(authorService.findAll());
 	}
+
+	@GetMapping("list/{id}")
+	private ResponseEntity<Optional<AuthorEntity>> listById(@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.FOUND).body(authorService.findById(id));
+	}
+
 	@PostMapping("/books/{bookId}/authors")
 	public ResponseEntity<AuthorEntity> addAuthorEntity(@PathVariable(value = "bookId") Long bookId, @RequestBody AuthorEntity authorRequest) {
 		AuthorEntity author = authorService.addAuthorByBook(bookId, authorRequest);
@@ -62,5 +69,9 @@ public class AuthorRest{
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id doesn't match with any entity");
 		}
+	}
+	@GetMapping("count")
+	private ResponseEntity<Long> count(){
+		return ResponseEntity.status(HttpStatus.OK).body(authorService.count());
 	}
 }

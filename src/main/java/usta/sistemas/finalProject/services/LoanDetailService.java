@@ -62,5 +62,8 @@ public class LoanDetailService{
 			return null;
 		}
 	}
+	public long count(){
+		return loanDetailRepo.count();
+	}	
 }
 

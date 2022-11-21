@@ -24,6 +24,9 @@ public class EditorialService{
 		return editorialRepo.findById(id);
 	}
 
+	public List<EditorialEntity> editorialByBookId(Long id){
+		return editorialRepo.findAllByBooksId(id);
+	}
 
 	public void deleteById(Long id){
 		editorialRepo.deleteById(id);
@@ -48,5 +51,8 @@ public class EditorialService{
 			return null;
 		}
 	}
+	public long count(){
+		return editorialRepo.count();
+	}	
 }
 
