@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -64,7 +65,10 @@ public class BookEntity implements Serializable{
 		joinColumns = @JoinColumn(name = "book_id",nullable = false),
 		inverseJoinColumns = @JoinColumn(name = "author_id")
 		)
-	@ManyToMany(cascade = CascadeType.ALL)
+
+	@ManyToMany(fetch = FetchType.LAZY,
+	cascade = {CascadeType.PERSIST,
+						 CascadeType.MERGE})
 	private List<AuthorEntity> authors;
 
 	public void addAuthor(AuthorEntity author){
@@ -73,5 +77,13 @@ public class BookEntity implements Serializable{
       }  
       this.authors.add(author);
     }
+
+	public void removeAuthor(long authorId) {
+    AuthorEntity author = this.authors.stream().filter(ath -> ath.getId() == authorId).findFirst().orElse(null);
+    if (author != null) {
+      this.authors.remove(author);
+      author.getBooks().remove(this);
+    }
+  }
 
 }
