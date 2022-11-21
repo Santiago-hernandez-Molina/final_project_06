@@ -16,37 +16,37 @@ import usta.sistemas.finalProject.repositories.ClientRepo;
 public class ClientService{
 	private final ClientRepo clientRepo;
 
-    public List<ClientEntity> findAll() {
-        return clientRepo.findAll();
-    }
+	public List<ClientEntity> findAll() {
+		return clientRepo.findAll();
+	}
 
-    public Optional<ClientEntity> findById(Long id) {
-        return clientRepo.findById(id);
-    }
+	public Optional<ClientEntity> findById(Long id) {
+		return clientRepo.findById(id);
+	}
 
 
-    public void deleteById(Long id){
-        clientRepo.deleteById(id);
-    }
+	public void deleteById(Long id){
+		clientRepo.deleteById(id);
+	}
 
-		public ClientEntity create(ClientEntity clientEntity){
-			try{
+	public ClientEntity create(ClientEntity clientEntity){
+		try{
+			return clientRepo.save(clientEntity);
+		}catch(Error e){
+			return null;
+		}
+	}
+	public ClientEntity edit(ClientEntity clientEntity){
+		try{
+			if(findById(clientEntity.getId())!=null){
 				return clientRepo.save(clientEntity);
-			}catch(Error e){
+			}else{
 				return null;
 			}
+		}catch(Error e){
+			System.err.println("something wents wrong");
+			return null;
 		}
-		public ClientEntity edit(ClientEntity clientEntity){
-			try{
-				if(findById(clientEntity.getId())!=null){
-					return clientRepo.save(clientEntity);
-				}else{
-					return null;
-				}
-			}catch(Error e){
-				System.err.println("something wents wrong");
-				return null;
-			}
-		}
+	}
 }
 

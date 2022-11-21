@@ -15,38 +15,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import usta.sistemas.finalProject.models.ClientEntity;
-import usta.sistemas.finalProject.services.ClientService;
+import usta.sistemas.finalProject.dtos.loanDetailDtos.loanDetailDTO;
+import usta.sistemas.finalProject.models.LoanDetailEntity;
+import usta.sistemas.finalProject.services.LoanDetailService;
 
 @RestController
-@RequestMapping("api/client")
+@RequestMapping("api/loanDetail")
 @RequiredArgsConstructor
-public class ClientRest{
-	private final ClientService clientService;
+public class LoanDetailRest{
+	private final LoanDetailService loanDetailService;
 
     @GetMapping("list")
-    public ResponseEntity<List<ClientEntity>> getAllCategories(){
-        return ResponseEntity.ok(clientService.findAll());
+    public ResponseEntity<List<LoanDetailEntity>> getAllCategories(){
+        return ResponseEntity.ok(loanDetailService.findAll());
     }
     @PostMapping("save")
-    private ResponseEntity<ClientEntity> save(@RequestBody ClientEntity clientEntity) {
+    private ResponseEntity<LoanDetailEntity> save(@RequestBody loanDetailDTO loanDetailEntity) {
 			try{
-        return ResponseEntity.status(HttpStatus.CREATED).body(clientService.create(clientEntity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanDetailService.create(loanDetailEntity));
 			}catch(Error e){
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			}
     }
 
     @PutMapping("edit")
-    private ResponseEntity<ClientEntity> edit(@RequestBody ClientEntity clientEntity) {
-        ClientEntity temporal = clientService.edit(clientEntity);
+    private ResponseEntity<LoanDetailEntity> edit(@RequestBody LoanDetailEntity loanDetailEntity) {
+        LoanDetailEntity temporal = loanDetailService.edit(loanDetailEntity);
         return ResponseEntity.status(HttpStatus.CREATED).body(temporal);
     }
 
     @DeleteMapping("delete/{id}")
     private ResponseEntity<String> delete(@PathVariable Long id) {
         try {
-            clientService.deleteById(id);
+            loanDetailService.deleteById(id);
             return ResponseEntity.ok("successfully removed");
         } catch (DataIntegrityViolationException de) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can´t remove this foreign key because it have been already assigned.");

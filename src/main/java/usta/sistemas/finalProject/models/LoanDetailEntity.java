@@ -21,12 +21,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "loans")
+@Table(name = "loans_detail")
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoanEntity{
+@AllArgsConstructor
+public class LoanDetailEntity{
 	@Serial
 	private static final long serialVersionUID = 1L;
 
@@ -35,15 +35,26 @@ public class LoanEntity{
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "start_date")
-	@DateTimeFormat(pattern = "yyyy-mm-dd")
-	private Date startDate;
-
-	@Column(name = "description",nullable = false,length = 200)
-	private String description;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "loan_id",referencedColumnName = "id")
+	private LoanEntity loan;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "client_id",referencedColumnName = "id")
-	private ClientEntity client;
+	@JoinColumn(name = "book_id",referencedColumnName = "id")
+	private BookEntity book;
+
+	@Column(name = "refund_date",nullable = false)
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	private Date refundDate;
+
+	@Column(name = "days_past_due")
+	private int daysPastDue;
+
+	@Column(name = "description",length = 200,nullable = false)
+	private String description;
+
+	@Column(name = "delivery_date",nullable = false)
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
+	private Date deliveryDate;
 
 }
