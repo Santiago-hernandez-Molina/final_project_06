@@ -12,13 +12,13 @@
 	/api/{entity_name}/edit/{id}   #edit entity
 
 ### Especial Endpoints
-	/api/{entity_name}/list
 	/api/author/delete/book/{book_id}/author/{author_id}  #remove many to many relation
-	/api/author/books/{book_id}/authors                   #and an author to the book and create if doesn´t exist   
+	/api/author/books/{book_id}/authors                   #add the author to the book and create if doesn´t exist   
 	
 
 
 ### QUERIES
+	/api/{entity_name}/count
 	/api/editorial/queryOne/{Book_id}
 	/api/client/queryTwo/{Loan_id}
 
