@@ -15,7 +15,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.CascadeType;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -85,5 +89,9 @@ public class BookEntity implements Serializable{
       author.getBooks().remove(this);
     }
   }
+
+	@OneToMany(mappedBy = "book")
+	@JsonIgnore
+	private List<LoanDetailEntity> loanDetailEntities;
 
 }

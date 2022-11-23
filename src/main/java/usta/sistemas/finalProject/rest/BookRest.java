@@ -64,4 +64,9 @@ public class BookRest{
 		}
 	}
 
+	@GetMapping("queryThree/{id}")
+	private ResponseEntity<Optional<BookEntity>> queryThree (@PathVariable Long id ){
+		return ResponseEntity.ok(bookService.queryThree(id));
+	}
+
 }

@@ -51,5 +51,8 @@ public class BookService{
 	public long count(){
 		return bookRepo.count();
 	}	
+	public Optional<BookEntity> queryThree(Long id){
+		return bookRepo.findBookByLoanDetailEntitiesId(id);
+	}
 }
 
